@@ -3,49 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Улсын Драмын Эрдмийн Театр & Цахим Тайз</title>
-    <!-- FontAwesome icons & Google Fonts -->
+    <title>Улсын Драмын Эрдмийн Театр & Цахим Платформ</title>
+    <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- 1. NAVBAR -->
+    <!-- 1. НАВИГАЦИЙН ЦЭС (NAVBAR) -->
     <header class="navbar">
         <div class="logo">
             <i class="fa-solid fa-masks-theater"></i>
-            <span>УДЭТ <span>ЦАХИМ ПЛАТФОРМ</span></span>
+            <span>УДЭТ <span id="navSubtitle">ЦАХИМ ПЛАТФОРМ</span></span>
         </div>
         <nav>
             <ul class="nav-links">
-                <li><a href="#hero" class="active"><i class="fa-solid fa-house"></i> Нүүр</a></li>
-                <li><a href="#digital-theatre"><i class="fa-solid fa-tv"></i> Цахим Тайз</a></li>
-                <li><a href="#tickets"><i class="fa-solid fa-ticket"></i> Тасалбар</a></li>
-                <li><a href="#map"><i class="fa-solid fa-map-location-dot"></i> Театрууд</a></li>
-                <li><a href="#timeline"><i class="fa-solid fa-clock-rotate-left"></i> Түүх</a></li>
-                <li><a href="#script"><i class="fa-solid fa-pen-nib"></i> Илгээх</a></li>
+                <li><a href="#hero" class="active"><i class="fa-solid fa-house"></i> <span data-lang="mn">Нүүр</span><span data-lang="en" class="hidden">Home</span></a></li>
+                <li><a href="#digital-theatre"><i class="fa-solid fa-tv"></i> <span data-lang="mn">Цахим Тайз</span><span data-lang="en" class="hidden">Digital Stage</span></a></li>
+                <li><a href="#tickets"><i class="fa-solid fa-ticket"></i> <span data-lang="mn">Тасалбар</span><span data-lang="en" class="hidden">Tickets</span></a></li>
+                <li><a href="#map"><i class="fa-solid fa-map-location-dot"></i> <span data-lang="mn">Театрууд</span><span data-lang="en" class="hidden">Theatres</span></a></li>
+                <li><a href="#reviews"><i class="fa-solid fa-star"></i> <span data-lang="mn">Үнэлгээ</span><span data-lang="en" class="hidden">Reviews</span></a></li>
+                <li><a href="#timeline"><i class="fa-solid fa-clock-rotate-left"></i> <span data-lang="mn">Түүх</span><span data-lang="en" class="hidden">History</span></a></li>
+                <li><a href="#script"><i class="fa-solid fa-pen-nib"></i> <span data-lang="mn">Зохиол</span><span data-lang="en" class="hidden">Script</span></a></li>
             </ul>
         </nav>
-        <button class="profile-btn" onclick="toggleProfile()"><i class="fa-solid fa-user"></i> Миний Театр</button>
+        <div class="nav-right">
+            <button class="lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="langText">EN</span></button>
+            <button class="profile-btn" onclick="openProfileModal()"><i class="fa-solid fa-user"></i> <span data-lang="mn">Миний Театр</span><span data-lang="en" class="hidden">My Theatre</span></button>
+        </div>
     </header>
 
-    <!-- 2. HERO SECTION -->
+    <!-- 2. HERO / ОНЦЛОХ ЖҮЖИГ -->
     <section id="hero" class="hero-section">
         <div class="hero-overlay">
             <div class="hero-content">
-                <span class="badge">🔥 Яг одоо тайзнаа</span>
+                <span class="badge">🔥 <span data-lang="mn">Яг одоо тайзнаа</span><span data-lang="en" class="hidden">Now Playing</span></span>
                 <h1>АННА КАРЕНИНА</h1>
                 <p class="hero-desc">Л.Н.Толстойн дэлхийн сонгодог драм. Хайр сэтгэл, нийгмийн шахалт, сэтгэлийн дотоод тэмцлийг харуулсан гайхамшигт бүтээл.</p>
                 <div class="hero-btns">
-                    <button class="btn primary-btn" onclick="scrollToSection('tickets')"><i class="fa-solid fa-ticket"></i> Тасалбар авах</button>
-                    <button class="btn secondary-btn" onclick="openTrailerModal()"><i class="fa-solid fa-circle-play"></i> Трейлер үзэх</button>
+                    <button class="btn primary-btn" onclick="scrollToSection('tickets')"><i class="fa-solid fa-ticket"></i> <span data-lang="mn">Тасалбар авах</span><span data-lang="en" class="hidden">Buy Tickets</span></button>
+                    <button class="btn secondary-btn" onclick="openTrailerModal()"><i class="fa-solid fa-circle-play"></i> <span data-lang="mn">Трейлер үзэх</span><span data-lang="en" class="hidden">Watch Trailer</span></button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. DIGITAL THEATRE STREAMING -->
+    <!-- 3. ЦАХИМ ТАЙЗ (DIGITAL THEATRE STREAMING) -->
     <section id="digital-theatre" class="section-container">
         <div class="section-header">
             <h2>🎬 ЦАХИМ ТАЙЗ <span>(Digital Theatre)</span></h2>
@@ -99,7 +103,7 @@
         </div>
     </section>
 
-    <!-- 4. TICKET BOOKING WITH VIP & MULTI-SEAT -->
+    <!-- 4. ИНТЕРАКТИВ ТАСАЛБАР АВАХ ХЭСЭГ (VIP & MULTI-SEAT) -->
     <section id="tickets" class="section-container dark-bg">
         <div class="section-header">
             <h2>🎟️ Тасалбар Захиалга</h2>
@@ -131,7 +135,7 @@
         </div>
     </section>
 
-    <!-- 5. THEATRE MAP -->
+    <!-- 5. МОНГОЛЫН ТЕАТРУУД -->
     <section id="map" class="section-container">
         <div class="section-header">
             <h2>🗺️ Монголын Театруудын Сүлжээ</h2>
@@ -148,8 +152,34 @@
         </div>
     </section>
 
-    <!-- 6. TIMELINE -->
-    <section id="timeline" class="section-container dark-bg">
+    <!-- 6. ҮЗЭГЧДИЙН ҮНЭЛГЭЭ & СЭТГЭГДЭЛ (ШИНЭ) -->
+    <section id="reviews" class="section-container dark-bg">
+        <div class="section-header">
+            <h2>⭐ Үзэгчдийн Сэтгэгдэл & Үнэлгээ</h2>
+            <p>Бүтээлүүдийн талаарх үзэгчдийн сэтгэгдлийг уншиж, өөрийн үнэлгээг үлдээгээрэй</p>
+        </div>
+        <div class="reviews-grid" id="reviewsGrid"></div>
+        
+        <form class="review-form" onsubmit="submitReview(event)">
+            <h3>Үнэлгээ Үлдээх</h3>
+            <div class="star-rating">
+                <i class="fa-solid fa-star star" data-value="1" onclick="setRating(1)"></i>
+                <i class="fa-solid fa-star star" data-value="2" onclick="setRating(2)"></i>
+                <i class="fa-solid fa-star star" data-value="3" onclick="setRating(3)"></i>
+                <i class="fa-solid fa-star star" data-value="4" onclick="setRating(4)"></i>
+                <i class="fa-solid fa-star star" data-value="5" onclick="setRating(5)"></i>
+            </div>
+            <div class="form-group">
+                <input type="text" id="reviewerName" placeholder="Нэр" required>
+                <input type="text" id="playName" placeholder="Жүжгийн нэр" required>
+            </div>
+            <textarea id="reviewComment" placeholder="Сэтгэгдэл бичих..." rows="3" required></textarea>
+            <button type="submit" class="btn primary-btn"><i class="fa-solid fa-comment-dots"></i> Сэтгэгдэл Нэмэх</button>
+        </form>
+    </section>
+
+    <!-- 7. ТҮҮХЭН TIMELINE -->
+    <section id="timeline" class="section-container">
         <div class="section-header">
             <h2>📜 Театрын Урлагийн Түүхэн Замнал</h2>
             <p>1931 оноос өнөөг хүртэлх онцлох түүхэн үйл явдлууд</p>
@@ -173,8 +203,8 @@
         </div>
     </section>
 
-    <!-- 7. SCRIPT SUBMISSION -->
-    <section id="script" class="section-container">
+    <!-- 8. ШИНЭ ЖҮЖГИЙН ЗОХИОЛ ИЛГЭЭХ -->
+    <section id="script" class="section-container dark-bg">
         <div class="section-header">
             <h2>✍️ Шинэ Жүжгийн Зохиолын Сан</h2>
             <p>Шинэ үеийн зохиолчид бүтээлээ театрын уран сайхны зөвлөлд илгээх хэсэг</p>
@@ -188,7 +218,7 @@
                 <input type="text" placeholder="Жүжгийн төрөл (Драм, Эмгэнэлт, Комеди...)" required>
                 <input type="number" placeholder="Дүрийн тоо" required>
             </div>
-            <textarea placeholder="Жүжгийн товч агуулга болон дүрийн судалбарууд..." rows="5" required></textarea>
+            <textarea placeholder="Жүжгийн товч агуулга болон дүрийн судалбарууд..." rows="4" required></textarea>
             <button type="submit" class="btn primary-btn"><i class="fa-solid fa-paper-plane"></i> Зохиол Илгээх</button>
         </form>
     </section>
@@ -198,9 +228,9 @@
         <p>© 2026 Улсын Драмын Эрдмийн Театр. Бүх эрх хуулиар хамгаалагдсан.</p>
     </footer>
 
-    <!-- MODAL -->
+    <!-- DYNAMIC MODAL -->
     <div class="modal" id="modal">
-        <div class="modal-content">
+        <div class="modal-content" id="modalContent">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <div id="modalBody"></div>
         </div>

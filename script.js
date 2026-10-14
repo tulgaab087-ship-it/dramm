@@ -1,18 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     initSeats();
     loadRegion('ub');
+    renderReviews();
 });
 
-// MULTI-SEAT & VIP LOGIC
+// GLOBAL STATE
+let selectedSeats = [];
+let userTickets = JSON.parse(localStorage.getItem('udet_tickets')) || [];
+let selectedRating = 5;
+let isEnglish = false;
+
+const VIP_PRICE = 45000;
+const REGULAR_PRICE = 25000;
+
+// 1. ТАСАЛБАР СУУДАЛ СӨНГӨХ ЛОГИК
 const seatsGrid = document.getElementById('seatsGrid');
 const selectedSeatEl = document.getElementById('selectedSeat');
 const totalPriceEl = document.getElementById('totalPrice');
 const payBtn = document.getElementById('payBtn');
-
-let selectedSeats = [];
-
-const VIP_PRICE = 45000;
-const REGULAR_PRICE = 25000;
 
 function initSeats() {
     seatsGrid.innerHTML = '';
@@ -72,7 +77,7 @@ function updateSummary() {
     payBtn.disabled = false;
 }
 
-// QPAY MODAL
+// 2. QPAY MODAL & ХУУЛГА / ЦАХИМ БАРИМТ GENERATE
 function openQPayModal() {
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modalBody');
@@ -81,27 +86,158 @@ function openQPayModal() {
     const seatNumbers = selectedSeats.map(s => `${s.number}${s.isVip ? ' (VIP)' : ''}`).join(', ');
 
     modalBody.innerHTML = `
-        <h3 style="color: var(--accent-gold); margin-bottom: 10px;">QPay-ээр Төлбөр Төлөх</h3>
+        <h3 style="color: var(--accent-gold); margin-bottom: 10px; text-align:center;">QPay-ээр Төлбөр Төлөх</h3>
         <p>Сонгосон: <strong>${seatNumbers}</strong></p>
         <p>Нийт суудал: <strong>${selectedSeats.length} ширхэг</strong></p>
         <p>Нийт дүн: <strong style="color: var(--accent-gold); font-size: 1.2rem;">${total.toLocaleString()}₮</strong></p>
         <div style="text-align:center; margin: 20px 0;">
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=UDET_QPay_Demo" alt="QPay QR" style="border-radius: 8px; border: 2px solid var(--accent-gold);">
+            <p style="font-size:0.8rem; color:var(--text-gray); margin-top:8px;">Банкны аппаараа QR кодыг уншуулна уу</p>
         </div>
         <button class="btn primary-btn full-width" onclick="confirmPayment()">
-            <i class="fa-solid fa-check"></i> Төлбөр шалгах
+            <i class="fa-solid fa-check-circle"></i> Төлбөр шалгах & Баримт харах
         </button>
     `;
     modal.style.display = 'flex';
 }
 
 function confirmPayment() {
-    alert(`Амжилттай! Таны сонгосон ${selectedSeats.length} суудлын QR тасалбар амжилттай баталгаажлаа.`);
+    const total = selectedSeats.reduce((sum, s) => sum + s.price, 0);
+    const seatNumbers = selectedSeats.map(s => `${s.number}${s.isVip ? ' (VIP)' : ''}`).join(', ');
+    const now = new Date();
+    const invoiceNo = 'UDET-' + Math.floor(100000 + Math.random() * 900000);
+    const dateStr = now.toLocaleDateString('mn-MN') + ' ' + now.toLocaleTimeString('mn-MN');
+
+    const newTicket = {
+        invoiceNo,
+        play: 'Анна Каренина',
+        seats: seatNumbers,
+        count: selectedSeats.length,
+        total,
+        date: dateStr
+    };
+
+    userTickets.push(newTicket);
+    localStorage.setItem('udet_tickets', JSON.stringify(userTickets));
+
+    showReceipt(newTicket);
     initSeats();
-    closeModal();
 }
 
-// DIGITAL THEATRE RENTAL
+// ТӨЛБӨРИЙН ЦАХИМ БАРИМТ ХАРУУЛАХ
+function showReceipt(ticket) {
+    const modalBody = document.getElementById('modalBody');
+
+    modalBody.innerHTML = `
+        <div class="receipt-card">
+            <div class="receipt-header">
+                <h2>УЛСЫН ДРАМЫН ЭРДМИЙН ТЕАТР</h2>
+                <p style="font-size:0.8rem; color:var(--text-gray);">ЦАХИМ ТАСАЛБАР БА ТӨЛБӨРИЙН БАРИМТ</p>
+            </div>
+            <div class="receipt-row"><span>Баримтын нийт дугаар:</span> <strong>${ticket.invoiceNo}</strong></div>
+            <div class="receipt-row"><span>Огноо:</span> <span>${ticket.date}</span></div>
+            <div class="receipt-row"><span>Жүжгийн нэр:</span> <strong>${ticket.play}</strong></div>
+            <div class="receipt-row"><span>Суудал:</span> <strong>${ticket.seats}</strong></div>
+            <div class="receipt-row"><span>Төлбөрийн хэлбэр:</span> <span>QPay / Онлайн</span></div>
+            <div class="receipt-row receipt-total"><span>Нийт төлсөн:</span> <span style="color:var(--accent-gold);">${ticket.total.toLocaleString()}₮</span></div>
+            
+            <div class="receipt-qr">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${ticket.invoiceNo}" alt="Ticket QR">
+                <p style="font-size:0.75rem; color:var(--text-gray); margin-top:5px;">Үүдэнд уншуулах QR код</p>
+            </div>
+            <button class="btn primary-btn full-width" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> Баримт хэвлэх / PDF хадгалах
+            </button>
+        </div>
+    `;
+}
+
+// 3. МИНИЙ ТЕАТР (ХЭРЭГЛЭГЧИЙН ПРОФАЙЛ & АВСАН ТАСАЛБАРУУД)
+function openProfileModal() {
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modalBody');
+
+    if (userTickets.length === 0) {
+        modalBody.innerHTML = `
+            <h3 style="color: var(--accent-gold); margin-bottom: 15px;"><i class="fa-solid fa-user"></i> Миний Театр</h3>
+            <p style="color: var(--text-gray); text-align:center; padding: 20px 0;">Танд одоогоор худалдаж авсан тасалбар байхгүй байна.</p>
+        `;
+    } else {
+        let ticketListHtml = userTickets.map((t, idx) => `
+            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:12px;">
+                <div style="display:flex; justify-space-between; margin-bottom:5px;">
+                    <strong style="color:var(--accent-gold);">${t.play}</strong>
+                    <span style="font-size:0.8rem; color:var(--text-gray);">${t.date}</span>
+                </div>
+                <p style="font-size:0.85rem;">Суудал: ${t.seats}</p>
+                <p style="font-size:0.85rem; color:var(--accent-gold);">Нийт: ${t.total.toLocaleString()}₮</p>
+                <button class="btn secondary-btn" style="padding:4px 10px; font-size:0.75rem; margin-top:8px;" onclick='showReceipt(${JSON.stringify(t)})'>Баримт харах</button>
+            </div>
+        `).join('');
+
+        modalBody.innerHTML = `
+            <h3 style="color: var(--accent-gold); margin-bottom: 15px;"><i class="fa-solid fa-ticket"></i> Худалдаж авсан тасалбарууд</h3>
+            ${ticketListHtml}
+        `;
+    }
+    modal.style.display = 'flex';
+}
+
+// 4. ҮЗЭГЧДИЙН СЭТГЭГДЭЛ & ҮНЭЛГЭЭ
+let reviews = [
+    { name: "Б.Бат-Эрдэнэ", play: "Анна Каренина", rating: 5, comment: "Жүжигчдийн тоглолт, тайз засал үнэхээр дээд түвшнийх байлаа. Баярлалаа!" },
+    { name: "М.Сарнай", play: "Тамгагүй Төр", rating: 5, comment: "Тайзны хөгжим, хувцас хэрэглэл гайхалтай. Заавал үзэх бүтээл." }
+];
+
+function renderReviews() {
+    const grid = document.getElementById('reviewsGrid');
+    grid.innerHTML = reviews.map(r => `
+        <div class="review-card">
+            <div class="review-header">
+                <strong>${r.name}</strong>
+                <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--accent-gold); margin-bottom:5px;">Жүжиг: ${r.play}</p>
+            <p style="font-size:0.9rem; color:var(--text-gray);">${r.comment}</p>
+        </div>
+    `).join('');
+}
+
+function setRating(val) {
+    selectedRating = val;
+    document.querySelectorAll('.star-rating .star').forEach((star, idx) => {
+        if (idx < val) star.classList.add('active');
+        else star.classList.remove('active');
+    });
+}
+
+function submitReview(e) {
+    e.preventDefault();
+    const name = document.getElementById('reviewerName').value;
+    const play = document.getElementById('playName').value;
+    const comment = document.getElementById('reviewComment').value;
+
+    reviews.unshift({ name, play, rating: selectedRating, comment });
+    renderReviews();
+    e.target.reset();
+    setRating(5);
+    alert('Таны сэтгэгдэл амжилттай нэмэгдлээ!');
+}
+
+// 5. ОЛОН ХЭЛНИЙ СОНГОЛТ (MN / EN)
+function toggleLanguage() {
+    isEnglish = !isEnglish;
+    document.getElementById('langText').innerText = isEnglish ? 'MN' : 'EN';
+    
+    document.querySelectorAll('[data-lang="mn"]').forEach(el => {
+        el.classList.toggle('hidden', isEnglish);
+    });
+    document.querySelectorAll('[data-lang="en"]').forEach(el => {
+        el.classList.toggle('hidden', !isEnglish);
+    });
+}
+
+// OTHER UTILS
 function openRentalModal(title, price) {
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modalBody');
@@ -132,7 +268,6 @@ function openTrailerModal() {
     modal.style.display = 'flex';
 }
 
-// REGIONAL THEATRES DATA
 const regionData = {
     ub: { name: "Улсын Драмын Эрдмийн Театр", city: "Улаанбаатар хот", desc: "1931 онд байгуулагдсан Монгол улсын драмын урлагийн цөм театр." },
     arkhangai: { name: "Архангай аймгийн Хөгжимт Драмын Театр", city: "Архангай, Цэцэрлэг хот", desc: "Арын сайхан хангай нутгийн соёл урлагийн голомт болсон анхны орон нутгийн театруудын нэг." },
@@ -162,12 +297,8 @@ function showYearDetails(year) {
 
 function submitScript(event) {
     event.preventDefault();
-    alert("Таны жүжгийн зохиолыг Уран сайхны зөвлөл хүлээн авлаа. Баярлалаа!");
+    alert("Таны жүжгийн зохиолыг Уран сайхны зөвлөл хүлээн авлаа. Баярлаلاа!");
     event.target.reset();
-}
-
-function toggleProfile() {
-    alert("Хэрэглэгчийн 'Миний Театр' хэсэг: Хадгалсан жүжгүүд болон идэвхтэй тасалбарууд энд харагдана.");
 }
 
 function closeModal() {
