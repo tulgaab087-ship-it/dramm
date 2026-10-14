@@ -3,62 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Улсын Драмын Эрдмийн Театр & Цахим Платформ</title>
+    <title>Улсын Драмын Эрдмийн Театр | Цахим Платформ</title>
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- 1. НАВИГАЦИЙН ЦЭС (NAVBAR) -->
+    <!-- NAVBAR -->
     <header class="navbar">
         <div class="logo">
             <i class="fa-solid fa-masks-theater"></i>
-            <span>УДЭТ <span id="navSubtitle">ЦАХИМ ПЛАТФОРМ</span></span>
+            <div>
+                <span>УДЭТ</span>
+                <span class="sub-logo">ЦАХИМ ПЛАТФОРМ</span>
+            </div>
         </div>
         <nav>
             <ul class="nav-links">
-                <li><a href="#hero" class="active"><i class="fa-solid fa-house"></i> <span data-lang="mn">Нүүр</span><span data-lang="en" class="hidden">Home</span></a></li>
-                <li><a href="#digital-theatre"><i class="fa-solid fa-tv"></i> <span data-lang="mn">Цахим Тайз</span><span data-lang="en" class="hidden">Digital Stage</span></a></li>
-                <li><a href="#tickets"><i class="fa-solid fa-ticket"></i> <span data-lang="mn">Тасалбар</span><span data-lang="en" class="hidden">Tickets</span></a></li>
-                <li><a href="#map"><i class="fa-solid fa-map-location-dot"></i> <span data-lang="mn">Театрууд</span><span data-lang="en" class="hidden">Theatres</span></a></li>
-                <li><a href="#reviews"><i class="fa-solid fa-star"></i> <span data-lang="mn">Үнэлгээ</span><span data-lang="en" class="hidden">Reviews</span></a></li>
-                <li><a href="#timeline"><i class="fa-solid fa-clock-rotate-left"></i> <span data-lang="mn">Түүх</span><span data-lang="en" class="hidden">History</span></a></li>
-                <li><a href="#script"><i class="fa-solid fa-pen-nib"></i> <span data-lang="mn">Зохиол</span><span data-lang="en" class="hidden">Script</span></a></li>
+                <li><a href="#hero" class="active"><i class="fa-solid fa-house"></i> Нүүр</a></li>
+                <li><a href="#schedule"><i class="fa-solid fa-calendar-days"></i> Хуваарь</a></li>
+                <li><a href="#digital-theatre"><i class="fa-solid fa-tv"></i> Цахим Тайз</a></li>
+                <li><a href="#tickets"><i class="fa-solid fa-ticket"></i> Тасалбар</a></li>
+                <li><a href="#tours"><i class="fa-solid fa-bus"></i> Аялан Тоглолт</a></li>
+                <li><a href="#reviews"><i class="fa-solid fa-star"></i> Үнэлгээ</a></li>
+                <li><a href="#timeline"><i class="fa-solid fa-clock-rotate-left"></i> Түүх</a></li>
             </ul>
         </nav>
-        <div class="nav-right">
-            <button class="lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="langText">EN</span></button>
-            <button class="profile-btn" onclick="openProfileModal()"><i class="fa-solid fa-user"></i> <span data-lang="mn">Миний Театр</span><span data-lang="en" class="hidden">My Theatre</span></button>
+        <div class="nav-actions">
+            <button class="profile-btn" onclick="openProfileModal()"><i class="fa-solid fa-user-shield"></i> Миний Театр</button>
         </div>
     </header>
 
-    <!-- 2. HERO / ОНЦЛОХ ЖҮЖИГ -->
+    <!-- HERO SECTION & COUNTDOWN -->
     <section id="hero" class="hero-section">
         <div class="hero-overlay">
             <div class="hero-content">
-                <span class="badge">🔥 <span data-lang="mn">Яг одоо тайзнаа</span><span data-lang="en" class="hidden">Now Playing</span></span>
+                <span class="badge">🔥 Дараагийн тоглолт эхлэхэд</span>
                 <h1>АННА КАРЕНИНА</h1>
                 <p class="hero-desc">Л.Н.Толстойн дэлхийн сонгодог драм. Хайр сэтгэл, нийгмийн шахалт, сэтгэлийн дотоод тэмцлийг харуулсан гайхамшигт бүтээл.</p>
+
+                <!-- LIVE COUNTDOWN -->
+                <div class="countdown-wrapper">
+                    <div class="time-box"><span id="days">00</span><p>Өдөр</p></div>
+                    <div class="time-box"><span id="hours">00</span><p>Цаг</p></div>
+                    <div class="time-box"><span id="minutes">00</span><p>Минут</p></div>
+                    <div class="time-box"><span id="seconds">00</span><p>Секунд</p></div>
+                </div>
+
                 <div class="hero-btns">
-                    <button class="btn primary-btn" onclick="scrollToSection('tickets')"><i class="fa-solid fa-ticket"></i> <span data-lang="mn">Тасалбар авах</span><span data-lang="en" class="hidden">Buy Tickets</span></button>
-                    <button class="btn secondary-btn" onclick="openTrailerModal()"><i class="fa-solid fa-circle-play"></i> <span data-lang="mn">Трейлер үзэх</span><span data-lang="en" class="hidden">Watch Trailer</span></button>
+                    <button class="btn primary-btn" onclick="scrollToSection('tickets')"><i class="fa-solid fa-ticket"></i> Тасалбар авах</button>
+                    <button class="btn secondary-btn" onclick="openTrailerModal()"><i class="fa-solid fa-circle-play"></i> Трейлер үзэх</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. ЦАХИМ ТАЙЗ (DIGITAL THEATRE STREAMING) -->
+    <!-- SCHEDULE SECTION -->
+    <section id="schedule" class="section-container">
+        <div class="section-header">
+            <h2>📅 Энэ Сарын Тоглолтын Хуваарь</h2>
+            <p>УДЭТ-ын тайзнаа тоглогдох сонгодог болон орчин үеийн жүжгүүдийн дэлгэрэнгүй цаг</p>
+        </div>
+        <div class="schedule-grid">
+            <div class="schedule-card">
+                <div class="date-badge"><span class="day">18</span><span class="month">10-Р САР</span></div>
+                <div class="schedule-info">
+                    <h3>Анна Каренина</h3>
+                    <p><i class="fa-regular fa-clock"></i> Баасан | 19:00 цаг (Үргэлжлэх: 2ц 40м)</p>
+                    <p><i class="fa-solid fa-location-dot"></i> УДЭТ - Их Танхим</p>
+                </div>
+                <button class="btn primary-btn" onclick="scrollToSection('tickets')">Тасалбар</button>
+            </div>
+            <div class="schedule-card">
+                <div class="date-badge"><span class="day">22</span><span class="month">10-Р САР</span></div>
+                <div class="schedule-info">
+                    <h3>Гамлет (У.Шекспир)</h3>
+                    <p><i class="fa-regular fa-clock"></i> Мягмар | 18:30 цаг (Үргэлжлэх: 2ц 15м)</p>
+                    <p><i class="fa-solid fa-location-dot"></i> УДЭТ - Их Танхим</p>
+                </div>
+                <button class="btn primary-btn" onclick="scrollToSection('tickets')">Тасалбар</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOURS SECTION -->
+    <section id="tours" class="section-container dark-bg">
+        <div class="section-header">
+            <h2>🚌 Орон Нутгийн Аялан Тоглолт</h2>
+            <p>Театрын уран бүтээлчид одоогоор аль аймаг орон нутагт тоглож байгаа болон дараагийн хуваарь</p>
+        </div>
+        <div class="tour-cards-grid">
+            <div class="tour-card">
+                <div class="tour-status active">ЯГ ОДОО ЯВАГДАЖ БАЙНА</div>
+                <h3>Архангай Аймаг</h3>
+                <p><strong>Жүжиг:</strong> "Тамгагүй Төр" Эпик драм</p>
+                <p><strong>Байршил:</strong> Архангай аймаг ХДТ</p>
+                <p><strong>Хугацаа:</strong> 10 сарын 12 - 10 сарын 20</p>
+            </div>
+            <div class="tour-card">
+                <div class="tour-status upcoming">ДАРААГИЙН ЗОГСООЛ</div>
+                <h3>Хөвсгөл Аймаг</h3>
+                <p><strong>Жүжиг:</strong> "Анна Каренина"</p>
+                <p><strong>Байршил:</strong> Хөвсгөл аймаг "Хонгороо" театр</p>
+                <p><strong>Хугацаа:</strong> 10 сарын 25 - 11 сарын 02</p>
+            </div>
+            <div class="tour-card">
+                <div class="tour-status upcoming">ТӨЛӨВЛӨГӨӨТ</div>
+                <h3>Дорнод Аймаг</h3>
+                <p><strong>Жүжиг:</strong> Сонгодог бүтээлүүд</p>
+                <p><strong>Байршил:</strong> Дорнод аймаг ХДТ</p>
+                <p><strong>Хугацаа:</strong> 11 сарын 10 - 11 сарын 18</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIGITAL THEATRE STREAMING -->
     <section id="digital-theatre" class="section-container">
         <div class="section-header">
-            <h2>🎬 ЦАХИМ ТАЙЗ <span>(Digital Theatre)</span></h2>
-            <p>Жүжгийг онлайнаар 48 цаг түрээсэлж эсвэл захиалгаар HD/4K чанартай үзээрэй</p>
+            <h2>🎬 Цахим Тайз (Digital Theatre)</h2>
+            <p>Жүжгийг онлайнаар 48 цаг түрээсэлж HD/4K чанартай хүссэн газраасаа үзээрэй</p>
         </div>
         <div class="card-grid">
             <div class="media-card">
                 <div class="media-thumb">
-                    <img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=800&q=80" alt="Жүжиг">
+                    <img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=800&q=80" alt="Анна Каренина">
                     <span class="price-tag">12,000₮ (48ц)</span>
                     <span class="quality-tag">1080p HD</span>
                 </div>
@@ -70,10 +140,9 @@
                     </button>
                 </div>
             </div>
-
             <div class="media-card">
                 <div class="media-thumb">
-                    <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=800&q=80" alt="Жүжиг">
+                    <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=800&q=80" alt="Тамгагүй Төр">
                     <span class="price-tag">15,000₮ (48ц)</span>
                     <span class="quality-tag">4K UHD</span>
                 </div>
@@ -85,29 +154,14 @@
                     </button>
                 </div>
             </div>
-
-            <div class="media-card">
-                <div class="media-thumb">
-                    <img src="https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=800&q=80" alt="Жүжиг">
-                    <span class="price-tag">10,000₮ (48ц)</span>
-                    <span class="quality-tag">1080p HD</span>
-                </div>
-                <div class="media-info">
-                    <h3>Гамлет (У.Шекспир)</h3>
-                    <p><i class="fa-solid fa-shield-halved"></i> DRM Хамгаалалттай | Архивын шилдэг бичлэг</p>
-                    <button class="btn primary-btn full-width" onclick="openRentalModal('Гамлет', 10000)">
-                        <i class="fa-solid fa-play"></i> Түрээслэх / Үзэх
-                    </button>
-                </div>
-            </div>
         </div>
     </section>
 
-    <!-- 4. ИНТЕРАКТИВ ТАСАЛБАР АВАХ ХЭСЭГ (VIP & MULTI-SEAT) -->
+    <!-- TICKET BOOKING (VIP & MULTI-SEAT) -->
     <section id="tickets" class="section-container dark-bg">
         <div class="section-header">
-            <h2>🎟️ Тасалбар Захиалга</h2>
-            <p>Театрын танхимын суудлаа сонгон QPay болон банкны картаар шууд баталгаажуулна уу</p>
+            <h2>🎟️ Тасалбар Захиалга & Суудал Сонголт</h2>
+            <p>Танхимын суудлаасаа сонгон VIP болон энгийн тасалбарыг QPay-ээр захиалаарай</p>
         </div>
         <div class="booking-wrapper">
             <div class="stage-container">
@@ -124,6 +178,7 @@
                 <h3><i class="fa-solid fa-receipt"></i> Захиалгын Төлөв</h3>
                 <div class="summary-details">
                     <p>Жүжиг: <strong>Анна Каренина</strong></p>
+                    <p>Тоглох цаг: <strong>10 сарын 18 (19:00)</strong></p>
                     <p>Суудал: <strong id="selectedSeat" class="highlight-text">Сонгоогүй</strong></p>
                     <hr>
                     <p class="total-price">Нийт дүн: <span id="totalPrice">0₮</span></p>
@@ -135,54 +190,37 @@
         </div>
     </section>
 
-    <!-- 5. МОНГОЛЫН ТЕАТРУУД -->
-    <section id="map" class="section-container">
-        <div class="section-header">
-            <h2>🗺️ Монголын Театруудын Сүлжээ</h2>
-            <p>Улаанбаатар болон аймаг орон нутгийн театруудын мэдээллийн нэгдсэн сан</p>
-        </div>
-        <div class="map-interactive">
-            <div class="region-buttons">
-                <button class="region-btn active" onclick="loadRegion('ub', event)">Улаанбаатар</button>
-                <button class="region-btn" onclick="loadRegion('arkhangai', event)">Архангай</button>
-                <button class="region-btn" onclick="loadRegion('khovsgol', event)">Хөвсгөл</button>
-                <button class="region-btn" onclick="loadRegion('dornod', event)">Дорнод</button>
-            </div>
-            <div class="region-info-card" id="regionInfo"></div>
-        </div>
-    </section>
-
-    <!-- 6. ҮЗЭГЧДИЙН ҮНЭЛГЭЭ & СЭТГЭГДЭЛ (ШИНЭ) -->
-    <section id="reviews" class="section-container dark-bg">
+    <!-- REVIEWS & RATINGS -->
+    <section id="reviews" class="section-container">
         <div class="section-header">
             <h2>⭐ Үзэгчдийн Сэтгэгдэл & Үнэлгээ</h2>
-            <p>Бүтээлүүдийн талаарх үзэгчдийн сэтгэгдлийг уншиж, өөрийн үнэлгээг үлдээгээрэй</p>
+            <p>УДЭТ-ын жүжгүүдийг үзсэн үзэгчдийн үнэлгээ, сэтгэгдлийн сан</p>
         </div>
         <div class="reviews-grid" id="reviewsGrid"></div>
         
         <form class="review-form" onsubmit="submitReview(event)">
-            <h3>Үнэлгээ Үлдээх</h3>
+            <h3>Өөрийн сэтгэгдлийг үлдээх</h3>
             <div class="star-rating">
-                <i class="fa-solid fa-star star" data-value="1" onclick="setRating(1)"></i>
-                <i class="fa-solid fa-star star" data-value="2" onclick="setRating(2)"></i>
-                <i class="fa-solid fa-star star" data-value="3" onclick="setRating(3)"></i>
-                <i class="fa-solid fa-star star" data-value="4" onclick="setRating(4)"></i>
-                <i class="fa-solid fa-star star" data-value="5" onclick="setRating(5)"></i>
+                <i class="fa-solid fa-star star active" data-value="1" onclick="setRating(1)"></i>
+                <i class="fa-solid fa-star star active" data-value="2" onclick="setRating(2)"></i>
+                <i class="fa-solid fa-star star active" data-value="3" onclick="setRating(3)"></i>
+                <i class="fa-solid fa-star star active" data-value="4" onclick="setRating(4)"></i>
+                <i class="fa-solid fa-star star active" data-value="5" onclick="setRating(5)"></i>
             </div>
             <div class="form-group">
-                <input type="text" id="reviewerName" placeholder="Нэр" required>
+                <input type="text" id="reviewerName" placeholder="Таны нэр" required>
                 <input type="text" id="playName" placeholder="Жүжгийн нэр" required>
             </div>
             <textarea id="reviewComment" placeholder="Сэтгэгдэл бичих..." rows="3" required></textarea>
-            <button type="submit" class="btn primary-btn"><i class="fa-solid fa-comment-dots"></i> Сэтгэгдэл Нэмэх</button>
+            <button type="submit" class="btn primary-btn"><i class="fa-solid fa-comment-dots"></i> Сэтгэгдэл Илгээх</button>
         </form>
     </section>
 
-    <!-- 7. ТҮҮХЭН TIMELINE -->
-    <section id="timeline" class="section-container">
+    <!-- TIMELINE SECTION -->
+    <section id="timeline" class="section-container dark-bg">
         <div class="section-header">
             <h2>📜 Театрын Урлагийн Түүхэн Замнал</h2>
-            <p>1931 оноос өнөөг хүртэлх онцлох түүхэн үйл явдлууд</p>
+            <p>1931 оноос өнөөг хүртэлх онцлох түүхэн үйл явдлуудын хронологи</p>
         </div>
         <div class="timeline-container">
             <div class="timeline-item" onclick="showYearDetails('1931')">
@@ -193,34 +231,14 @@
             <div class="timeline-item" onclick="showYearDetails('1980')">
                 <div class="year-badge">1980 он</div>
                 <h3>Сонгодог ба Алтан Үе</h3>
-                <p>Дэлхийн ба Монголын түүхэн том драм, эмгэнэлт жүжгүүд шил дараалан тайзнаа амилав.</p>
+                <p>Дэлхийн болон үндэсний түүхэн том драм, эмгэнэлт жүжгүүд шил дараалан тайзнаа амилав.</p>
             </div>
             <div class="timeline-item" onclick="showYearDetails('2026')">
                 <div class="year-badge">2026 он</div>
                 <h3>Цахим Шийдэл & Digital Theatre</h3>
-                <p>Театрын урлаг дижитал хэлбэрт шижиж, дэлхийн аль ч өнцгөөс онлайн үзэх боломж бүрдэв.</p>
+                <p>Театрын урлаг дижитал хэлбэрт шилжиж, дэлхийн аль ч өнцгөөс онлайн үзэх боломж бүрдэв.</p>
             </div>
         </div>
-    </section>
-
-    <!-- 8. ШИНЭ ЖҮЖГИЙН ЗОХИОЛ ИЛГЭЭХ -->
-    <section id="script" class="section-container dark-bg">
-        <div class="section-header">
-            <h2>✍️ Шинэ Жүжгийн Зохиолын Сан</h2>
-            <p>Шинэ үеийн зохиолчид бүтээлээ театрын уран сайхны зөвлөлд илгээх хэсэг</p>
-        </div>
-        <form class="script-form" onsubmit="submitScript(event)">
-            <div class="form-group">
-                <input type="text" placeholder="Зохиолын нэр" required>
-                <input type="text" placeholder="Зохиолчийн бүтэн нэр" required>
-            </div>
-            <div class="form-group">
-                <input type="text" placeholder="Жүжгийн төрөл (Драм, Эмгэнэлт, Комеди...)" required>
-                <input type="number" placeholder="Дүрийн тоо" required>
-            </div>
-            <textarea placeholder="Жүжгийн товч агуулга болон дүрийн судалбарууд..." rows="4" required></textarea>
-            <button type="submit" class="btn primary-btn"><i class="fa-solid fa-paper-plane"></i> Зохиол Илгээх</button>
-        </form>
     </section>
 
     <!-- FOOTER -->
@@ -228,7 +246,7 @@
         <p>© 2026 Улсын Драмын Эрдмийн Театр. Бүх эрх хуулиар хамгаалагдсан.</p>
     </footer>
 
-    <!-- DYNAMIC MODAL -->
+    <!-- MODAL POPUP -->
     <div class="modal" id="modal">
         <div class="modal-content" id="modalContent">
             <span class="close-btn" onclick="closeModal()">&times;</span>
