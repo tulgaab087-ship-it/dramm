@@ -1,0 +1,210 @@
+/* 1. БҮХ ЕРӨНХИ СТАЙЛ & ҮНДСЭН ӨНГӨ */
+:root {
+    --bg-dark: #0f0f12;
+    --bg-card: #1a1a24;
+    --primary-red: #8b0000;
+    --accent-gold: #d4af37;
+    --text-light: #f0f0f5;
+    --text-gray: #a0a0b0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* 2. НАВИГАЦИЙН ЦЭС (NAVBAR) */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background-color: rgba(15, 15, 18, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--accent-gold);
+}
+
+/* 3. HERO ХЭСЭГ */
+.hero-section {
+    height: 70vh;
+    background: linear-gradient(to right, rgba(15, 15, 18, 0.9), rgba(15, 15, 18, 0.4)), 
+                url('https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1500&q=80') center/cover;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    color: var(--accent-gold);
+    margin: 10px 0;
+}
+
+.badge {
+    background-color: var(--primary-red);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+/* 4. ТОВЧНУУД (BUTTONS) */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.primary-btn {
+    background-color: var(--primary-red);
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: #b30000;
+}
+
+.secondary-btn {
+    background-color: transparent;
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+/* 5. КАРТУУД БА СЕТКА (GRID) */
+.section-container {
+    padding: 4rem 5%;
+}
+
+.dark-bg {
+    background-color: #14141a;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.media-card {
+    background: var(--bg-card);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.media-thumb img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.media-info {
+    padding: 15px;
+}
+
+/* 6. ТАСАЛБАР ЗАХИАЛГЫН СУУДАЛ */
+.stage-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.stage {
+    background: var(--accent-gold);
+    color: black;
+    padding: 8px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.seats-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.seat {
+    width: 35px;
+    height: 35px;
+    background-color: #3a3a4a;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.seat.selected {
+    background-color: var(--accent-gold);
+    color: black;
+}
+
+.seat.occupied {
+    background-color: #222;
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+/* 7. MODAL (POPUP) */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: 10px;
+    position: relative;
+    max-width: 450px;
+    width: 90%;
+    border: 1px solid var(--accent-gold);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
