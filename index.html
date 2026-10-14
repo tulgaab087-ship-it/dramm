@@ -161,7 +161,7 @@
     <section id="tickets" class="section-container dark-bg">
         <div class="section-header">
             <h2>🎟️ Тасалбар Захиалга & Суудал Сонголт</h2>
-            <p>Танхимын суудлаасаа сонгон VIP болон энгийн тасалбарыг QPay-ээр захиалаарай</p>
+            <p>Үзэх жүжгээ сонгон танхимын суудлаас сонголтоо хийнэ үү</p>
         </div>
         <div class="booking-wrapper">
             <div class="stage-container">
@@ -177,8 +177,14 @@
             <div class="booking-summary">
                 <h3><i class="fa-solid fa-receipt"></i> Захиалгын Төлөв</h3>
                 <div class="summary-details">
-                    <p>Жүжиг: <strong>Анна Каренина</strong></p>
-                    <p>Тоглох цаг: <strong>10 сарын 18 (19:00)</strong></p>
+                    <p style="display:flex; flex-direction:column; gap:5px; margin-bottom:15px;">
+                        <span>Үзвэр сонгох:</span>
+                        <select id="playSelect" onchange="changePlay()" style="padding:8px; background:#0f0f16; color:var(--accent-gold); border:1px solid var(--border-color); border-radius:6px; font-weight:600;">
+                            <option value="Анна Каренина">Анна Каренина (10 сарын 18)</option>
+                            <option value="Гамлет">Гамлет (10 сарын 22)</option>
+                            <option value="Тамгагүй Төр">Тамгагүй Төр (10 сарын 28)</option>
+                        </select>
+                    </p>
                     <p>Суудал: <strong id="selectedSeat" class="highlight-text">Сонгоогүй</strong></p>
                     <hr>
                     <p class="total-price">Нийт дүн: <span id="totalPrice">0₮</span></p>

@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // GLOBAL STATE
+let currentPlay = 'Анна Каренина';
 let selectedSeats = [];
 let userTickets = JSON.parse(localStorage.getItem('udet_tickets')) || [];
 let selectedRating = 5;
@@ -27,28 +28,45 @@ function startCountdown() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById('days').innerText = days < 10 ? '0' + days : days;
-        document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
-        document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
-        document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        if (daysEl) daysEl.innerText = days < 10 ? '0' + days : days;
+        if (hoursEl) hoursEl.innerText = hours < 10 ? '0' + hours : hours;
+        if (minutesEl) minutesEl.innerText = minutes < 10 ? '0' + minutes : minutes;
+        if (secondsEl) secondsEl.innerText = seconds < 10 ? '0' + seconds : seconds;
     }, 1000);
 }
 
-// 2. SEAT SELECTION & OCCUPIED LOGIC
+// ЖҮЖИГ СУУДЛААР СОЛИХ
+function changePlay() {
+    const playSelect = document.getElementById('playSelect');
+    if (playSelect) {
+        currentPlay = playSelect.value;
+    }
+    initSeats();
+}
+
+// 2. SEAT SELECTION & OCCUPIED LOGIC (ЖҮЖИГ ТУС БҮРД САЛГАХ)
 const seatsGrid = document.getElementById('seatsGrid');
 const selectedSeatEl = document.getElementById('selectedSeat');
 const totalPriceEl = document.getElementById('totalPrice');
 const payBtn = document.getElementById('payBtn');
 
 function initSeats() {
+    if (!seatsGrid) return;
     seatsGrid.innerHTML = '';
     selectedSeats = [];
     updateSummary();
 
     let bookedSeatNumbers = [];
     userTickets.forEach(t => {
+        const playName = t.play || 'Анна Каренина';
         const status = t.status || 'Идэвхтэй';
-        if (status === 'Идэвхтэй') {
+        
+        if (playName === currentPlay && status === 'Идэвхтэй') {
             const numbers = t.seats.match(/\d+/g);
             if (numbers) {
                 bookedSeatNumbers.push(...numbers.map(Number));
@@ -72,7 +90,7 @@ function initSeats() {
 
         if (bookedSeatNumbers.includes(i)) {
             seat.classList.add('occupied');
-            seat.title = "Энэ суудал аль хэдийн зарагдсан байна";
+            seat.title = `${currentPlay} жүжиг дээр энэ суудал зарагдсан байна`;
         } else {
             seat.addEventListener('click', () => toggleSeatSelection(i, price, isVip, seat));
         }
@@ -95,6 +113,8 @@ function toggleSeatSelection(number, price, isVip, element) {
 }
 
 function updateSummary() {
+    if (!selectedSeatEl || !totalPriceEl || !payBtn) return;
+
     if (selectedSeats.length === 0) {
         selectedSeatEl.innerText = "Сонгоогүй";
         totalPriceEl.innerText = "0₮";
@@ -120,6 +140,7 @@ function openQPayModal() {
 
     modalBody.innerHTML = `
         <h3 style="color: var(--accent-gold); margin-bottom: 10px; text-align:center;">QPay-ээр Төлбөр Төлөх</h3>
+        <p>Жүжиг: <strong>${currentPlay}</strong></p>
         <p>Сонгосон: <strong>${seatNumbers}</strong></p>
         <p>Нийт дүн: <strong style="color: var(--accent-gold); font-size: 1.2rem;">${total.toLocaleString()}₮</strong></p>
         <div style="text-align:center; margin: 20px 0;">
@@ -141,8 +162,8 @@ function confirmPayment() {
 
     const newTicket = {
         invoiceNo,
-        play: 'Анна Каренина',
-        playDate: '2026-10-18 19:00',
+        play: currentPlay,
+        playDate: currentPlay === 'Анна Каренина' ? '2026-10-18 19:00' : (currentPlay === 'Гамлет' ? '2026-10-22 18:30' : '2026-10-28 19:00'),
         seats: seatNumbers,
         count: selectedSeats.length,
         total,
@@ -159,7 +180,6 @@ function confirmPayment() {
 
 function showReceipt(ticket) {
     const modalBody = document.getElementById('modalBody');
-    const playDate = ticket.playDate || '2026-10-18 19:00';
 
     modalBody.innerHTML = `
         <div class="receipt-card">
@@ -167,15 +187,15 @@ function showReceipt(ticket) {
                 <h2>УЛСЫН ДРАМЫН ЭРДМИЙН ТЕАТР</h2>
                 <p style="font-size:0.8rem; color:var(--text-gray);">ЦАХИМ ТАСАЛБАР БА ТӨЛБӨРИЙН БАРИМТ</p>
             </div>
-            <div class="receipt-row"><span>Дугаар:</span> <strong>${ticket.invoiceNo || 'UDET-100203'}</strong></div>
-            <div class="receipt-row"><span>Огноо:</span> <span>${ticket.date || '2026-10-14'}</span></div>
-            <div class="receipt-row"><span>Жүжиг:</span> <strong>${ticket.play || 'Анна Каренина'}</strong></div>
-            <div class="receipt-row"><span>Тоглох өдөр:</span> <strong>${playDate}</strong></div>
+            <div class="receipt-row"><span>Дугаар:</span> <strong>${ticket.invoiceNo}</strong></div>
+            <div class="receipt-row"><span>Огноо:</span> <span>${ticket.date}</span></div>
+            <div class="receipt-row"><span>Жүжиг:</span> <strong>${ticket.play}</strong></div>
+            <div class="receipt-row"><span>Тоглох өдөр:</span> <strong>${ticket.playDate}</strong></div>
             <div class="receipt-row"><span>Суудал:</span> <strong>${ticket.seats}</strong></div>
             <div class="receipt-row receipt-total"><span>Нийт төлсөн:</span> <span style="color:var(--accent-gold);">${(ticket.total || 0).toLocaleString()}₮</span></div>
             
             <div class="receipt-qr">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${ticket.invoiceNo || 'UDET-100203'}" alt="Ticket QR">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${ticket.invoiceNo}" alt="Ticket QR">
             </div>
             <button class="btn primary-btn full-width" onclick="window.print()">
                 <i class="fa-solid fa-print"></i> Баримт Хэвлэх / PDF
@@ -184,7 +204,7 @@ function showReceipt(ticket) {
     `;
 }
 
-// 4. PROFILE & TICKET REFUND (Kho qhov undefined rau cov ntaub ntawv qub)
+// 4. PROFILE & TICKET REFUND
 function openProfileModal() {
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modalBody');
@@ -220,7 +240,7 @@ function openProfileModal() {
         modalBody.innerHTML = `
             <h3 style="color: var(--accent-gold); margin-bottom: 15px;"><i class="fa-solid fa-ticket"></i> Миний Тасалбарууд</h3>
             ${ticketListHtml}
-            <button class="btn secondary-btn full-width" style="margin-top:10px; font-size:0.8rem;" onclick="clearAllTickets()">Цэвэрлэх (Clear History)</button>
+            <button class="btn secondary-btn full-width" style="margin-top:10px; font-size:0.8rem;" onclick="clearAllTickets()">Түүх Цэвэрлэх</button>
         `;
     }
     modal.style.display = 'flex';
@@ -237,12 +257,12 @@ function clearAllTickets() {
 
 function processRefund(index) {
     const ticket = userTickets[index];
-    const confirmRefund = confirm(`Та "${ticket.play || 'Анна Каренина'}" жүжгийн ${ticket.seats} суудлын тасалбарыг буцаахдаа итгэлтэй байна уу?\n\nБуцаасан суудал шууд чөлөөлөгдөх болно.`);
+    const confirmRefund = confirm(`Та "${ticket.play}" жүжгийн ${ticket.seats} суудлын тасалбарыг буцаахдаа итгэлтэй байна уу?\n\nБуцаасан суудал тухайн жүжиг дээр чөлөөлөгдөх болно.`);
 
     if (confirmRefund) {
         userTickets.splice(index, 1);
         localStorage.setItem('udet_tickets', JSON.stringify(userTickets));
-        alert('Тасалбар амжилттай буцаагдлаа. Сонгосон суудал чөлөөлөгдлөө.');
+        alert('Тасалбар амжилттай буцаагдлаа.');
         initSeats();
         openProfileModal();
     }
@@ -256,6 +276,7 @@ let reviews = [
 
 function renderReviews() {
     const grid = document.getElementById('reviewsGrid');
+    if (!grid) return;
     grid.innerHTML = reviews.map(r => `
         <div class="review-card">
             <div class="review-header">
@@ -322,5 +343,12 @@ function showYearDetails(year) {
     alert(`${year} оны театрын ховор архивын зураг, сонин нийтлэлүүдийн сан нээгдэж байна.`);
 }
 
-function closeModal() { document.getElementById('modal').style.display = 'none'; }
-function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+function closeModal() { 
+    const modal = document.getElementById('modal');
+    if (modal) modal.style.display = 'none'; 
+}
+
+function scrollToSection(id) { 
+    const element = document.getElementById(id);
+    if (element) element.scrollIntoView({ behavior: 'smooth' }); 
+}
