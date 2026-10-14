@@ -1,91 +1,157 @@
-/* 1. БҮХ ЕРӨНХИ СТАЙЛ & ҮНДСЭН ӨНГӨ */
 :root {
-    --bg-dark: #0f0f12;
-    --bg-card: #1a1a24;
+    --bg-dark: #0a0a0d;
+    --bg-card: #14141c;
+    --bg-glass: rgba(20, 20, 28, 0.75);
     --primary-red: #8b0000;
+    --primary-red-hover: #a80000;
     --accent-gold: #d4af37;
-    --text-light: #f0f0f5;
-    --text-gray: #a0a0b0;
+    --accent-gold-light: #f3e5ab;
+    --text-light: #f5f5fa;
+    --text-gray: #a0a0b2;
+    --border-color: rgba(212, 175, 55, 0.2);
+    --radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-light);
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* 2. НАВИГАЦИЙН ЦЭС (NAVBAR) */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* NAVBAR */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 5%;
-    background-color: rgba(15, 15, 18, 0.9);
+    padding: 1.2rem 6%;
+    background-color: var(--bg-glass);
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(15px);
 }
 
 .logo {
-    font-size: 1.4rem;
-    font-weight: bold;
+    font-size: 1.3rem;
+    font-weight: 700;
     color: var(--accent-gold);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+}
+
+.logo span span {
+    font-size: 0.75rem;
+    display: block;
+    color: var(--text-gray);
+    letter-spacing: 2px;
 }
 
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 20px;
+    gap: 25px;
 }
 
 .nav-links a {
     color: var(--text-light);
     text-decoration: none;
-    transition: 0.3s;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .nav-links a:hover, .nav-links a.active {
     color: var(--accent-gold);
 }
 
-/* 3. HERO ХЭСЭГ */
+.profile-btn {
+    background: transparent;
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.profile-btn:hover {
+    background: var(--accent-gold);
+    color: black;
+}
+
+/* HERO SECTION */
 .hero-section {
-    height: 70vh;
-    background: linear-gradient(to right, rgba(15, 15, 18, 0.9), rgba(15, 15, 18, 0.4)), 
-                url('https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1500&q=80') center/cover;
+    height: 80vh;
+    background: linear-gradient(to right, rgba(10, 10, 13, 0.95) 30%, rgba(10, 10, 13, 0.4)), 
+                url('https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1600&q=80') center/cover;
     display: flex;
     align-items: center;
-    padding: 0 5%;
+    padding: 0 6%;
+}
+
+.hero-content {
+    max-width: 650px;
 }
 
 .hero-content h1 {
-    font-size: 3.5rem;
-    color: var(--accent-gold);
-    margin: 10px 0;
+    font-size: 4rem;
+    color: var(--accent-gold-light);
+    margin: 15px 0;
+    letter-spacing: 2px;
+}
+
+.hero-desc {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
 }
 
 .badge {
     background-color: var(--primary-red);
-    padding: 5px 12px;
+    color: white;
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.85rem;
+    font-weight: 600;
 }
 
-/* 4. ТОВЧНУУД (BUTTONS) */
+.hero-btns {
+    display: flex;
+    gap: 15px;
+}
+
+/* BUTTONS */
 .btn {
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.95rem;
     transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .primary-btn {
@@ -94,99 +160,358 @@ body {
 }
 
 .primary-btn:hover {
-    background-color: #b30000;
+    background-color: var(--primary-red-hover);
+    transform: translateY(-2px);
 }
 
 .secondary-btn {
-    background-color: transparent;
+    background: transparent;
     border: 1px solid var(--accent-gold);
     color: var(--accent-gold);
 }
 
-/* 5. КАРТУУД БА СЕТКА (GRID) */
+.secondary-btn:hover {
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.full-width {
+    width: 100%;
+}
+
+/* CARDS & GRID */
 .section-container {
-    padding: 4rem 5%;
+    padding: 5rem 6%;
 }
 
 .dark-bg {
-    background-color: #14141a;
+    background-color: #0e0e14;
+}
+
+.section-header {
+    margin-bottom: 3rem;
+}
+
+.section-header h2 {
+    font-size: 2.2rem;
+    color: var(--accent-gold);
+}
+
+.section-header h2 span {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.section-header p {
+    color: var(--text-gray);
 }
 
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
 }
 
 .media-card {
     background: var(--bg-card);
-    border-radius: 8px;
+    border-radius: var(--radius);
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid var(--border-color);
+    transition: 0.3s ease;
+}
+
+.media-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-gold);
+}
+
+.media-thumb {
+    position: relative;
+    height: 200px;
 }
 
 .media-thumb img {
     width: 100%;
-    height: 180px;
+    height: 100%;
     object-fit: cover;
 }
 
-.media-info {
-    padding: 15px;
+.price-tag {
+    position: absolute;
+    bottom: 12px; right: 12px;
+    background: rgba(0, 0, 0, 0.85);
+    color: var(--accent-gold);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
 }
 
-/* 6. ТАСАЛБАР ЗАХИАЛГЫН СУУДАЛ */
-.stage-container {
-    text-align: center;
+.quality-tag {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--primary-red);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.media-info {
+    padding: 20px;
+}
+
+.media-info h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.media-info p {
+    color: var(--text-gray);
+    font-size: 0.85rem;
     margin-bottom: 20px;
 }
 
+/* SEATING AREA */
+.booking-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 40px;
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+}
+
+@media (max-width: 900px) {
+    .booking-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
 .stage {
-    background: var(--accent-gold);
+    background: linear-gradient(180deg, var(--accent-gold) 0%, rgba(212, 175, 55, 0.3) 100%);
     color: black;
-    padding: 8px;
-    margin-bottom: 25px;
-    font-weight: bold;
-    letter-spacing: 2px;
+    padding: 10px;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 4px;
+    border-radius: 6px;
+    margin-bottom: 30px;
 }
 
 .seats-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     gap: 10px;
-    max-width: 400px;
-    margin: 0 auto;
+    max-width: 450px;
+    margin: 0 auto 20px auto;
 }
 
 .seat {
-    width: 35px;
-    height: 35px;
-    background-color: #3a3a4a;
-    border-radius: 5px;
+    aspect-ratio: 1;
+    background-color: #2a2a3a;
+    border-radius: 6px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.8rem;
+    font-weight: 600;
+    transition: 0.2s;
 }
 
-.seat.selected {
-    background-color: var(--accent-gold);
+.seat:hover:not(.occupied) {
+    background-color: var(--primary-red);
+    color: white;
+}
+
+.seat.vip {
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.seat.vip:hover:not(.occupied) {
+    background: var(--accent-gold);
     color: black;
 }
 
-.seat.occupied {
-    background-color: #222;
-    cursor: not-allowed;
-    opacity: 0.4;
+.seat.selected {
+    background-color: var(--accent-gold) !important;
+    color: black !important;
 }
 
-/* 7. MODAL (POPUP) */
+.seat.occupied {
+    background-color: #15151f;
+    color: #444;
+    border: none;
+    cursor: not-allowed;
+}
+
+.seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    flex-wrap: wrap;
+}
+
+.seat-sample {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+.seat-sample.vip-sample { background: rgba(212, 175, 55, 0.2); border: 1px solid var(--accent-gold); }
+.seat-sample.available { background: #2a2a3a; }
+.seat-sample.selected { background: var(--accent-gold); }
+.seat-sample.occupied { background: #15151f; }
+
+.booking-summary {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+}
+
+.summary-details p {
+    margin: 12px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.highlight-text {
+    color: var(--accent-gold);
+}
+
+.total-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.total-price span {
+    color: var(--accent-gold);
+}
+
+/* MAP & REGIONAL THEATRES */
+.region-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.region-btn {
+    padding: 10px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.region-btn.active, .region-btn:hover {
+    background: var(--accent-gold);
+    color: black;
+    font-weight: 600;
+}
+
+.region-info-card {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+}
+
+/* TIMELINE */
+.timeline-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.timeline-item {
+    background: var(--bg-card);
+    padding: 25px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.timeline-item:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-3px);
+}
+
+.year-badge {
+    display: inline-block;
+    background: var(--accent-gold);
+    color: black;
+    padding: 4px 10px;
+    font-weight: 700;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+/* FORM */
+.script-form {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 600px) {
+    .form-group { flex-direction: column; }
+}
+
+.script-form input, .script-form textarea {
+    width: 100%;
+    padding: 12px;
+    background: #0f0f16;
+    border: 1px solid var(--border-color);
+    color: white;
+    border-radius: 6px;
+    font-family: inherit;
+}
+
+.script-form input:focus, .script-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 30px;
+    background: #050508;
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* MODAL */
 .modal {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
     justify-content: center;
     align-items: center;
     z-index: 2000;
@@ -194,17 +519,20 @@ body {
 
 .modal-content {
     background: var(--bg-card);
-    padding: 30px;
-    border-radius: 10px;
+    padding: 35px;
+    border-radius: var(--radius);
     position: relative;
-    max-width: 450px;
+    max-width: 480px;
     width: 90%;
     border: 1px solid var(--accent-gold);
 }
 
 .close-btn {
     position: absolute;
-    top: 10px; right: 15px;
-    font-size: 1.5rem;
+    top: 15px; right: 20px;
+    font-size: 1.8rem;
     cursor: pointer;
+    color: var(--text-gray);
 }
+
+.close-btn:hover { color: white; }
